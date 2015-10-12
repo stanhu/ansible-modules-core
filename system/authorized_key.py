@@ -158,6 +158,8 @@ class keydict(dict):
         return [self[key] for key in self]
     def itervalues(self):
         return (self[key] for key in self)
+    def items(self):
+        return zip(self.keys(), self.values())
 
 def keyfile(module, user, write=False, path=None, manage_dir=True):
     """
@@ -302,9 +304,9 @@ def parsekey(module, raw_key):
 def readkeys(module, filename):
 
     if not os.path.isfile(filename):
-        return {}
+        return keydict()
 
-    keys = {}
+    keys = keydict()
     f = open(filename)
     for line in f.readlines():
         key_data = parsekey(module, line)
